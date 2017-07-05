@@ -241,6 +241,11 @@ class TestLoggingMixin(APITestCase):
         self.assertEqual(log.status_code, 415)
         self.assertIn('Unsupported media type', log.response)
 
+    def test_log_only_error(self):
+        self.client.get('/only-error-logging')
+        self.client.get('/only-error-logging', {'error': True})
+        self.assertEqual(APIRequestLog.objects.count(), 1)
+
     def test_log_view_name_api_view(self):
         self.client.get('/no-view-log')
         log = APIRequestLog.objects.first()

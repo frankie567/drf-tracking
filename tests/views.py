@@ -89,6 +89,16 @@ class Mock415ErrorLoggingView(LoggingMixin, APIView):
         return request.data
 
 
+class MockOnlyErrorLoggingView(LoggingMixin, APIView):
+    def get(self, request):
+        if 'error' in request.query_params:
+            raise serializers.ValidationError('error')
+        return Response('response')
+
+    def _should_log_response(self, response):
+        return response.status_code >= 400
+
+
 class MockNameAPIView(LoggingMixin, APIView):
     def get(self, _):
         return Response('with logging')

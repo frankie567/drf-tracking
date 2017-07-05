@@ -13,7 +13,7 @@ class LoggingMixin(object):
         """Set current time on request"""
 
         # check if request is being logged
-        if not self._should_log(request):
+        if not self._should_log_request(request):
             super(LoggingMixin, self).initial(request, *args, **kwargs)
             return None
 
@@ -85,8 +85,6 @@ class LoggingMixin(object):
         # log error
         if hasattr(self.request, 'log'):
             self.request.log.errors = traceback.format_exc()
-            self.request.log.status_code = response.status_code
-            self.request.log.save()
 
         # return
         return response
@@ -96,7 +94,7 @@ class LoggingMixin(object):
         response = super(LoggingMixin, self).finalize_response(request, response, *args, **kwargs)
 
         # not logging method
-        if not hasattr(self.request, 'log'):
+        if not hasattr(self.request, 'log') or not self._should_log_response(response):
             return response
 
         # compute response time
@@ -112,8 +110,11 @@ class LoggingMixin(object):
         # return
         return response
 
-    def _should_log(self, request):
+    def _should_log_request(self, request):
         return self.logging_methods == '__all__' or request.method in self.logging_methods
+
+    def _should_log_response(self, response):
+        return True
 
 
 def _clean_data(data):
