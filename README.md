@@ -78,12 +78,27 @@ class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIVi
     model = ...
 ```
 
-You can provide a more advanced logic to determine if the request should be logged or not by overriding `_should_log` method:
+You can provide a more advanced logic to determine if the request should be logged or not by overriding `_should_log_request` method. By default, check if the method is in `logging_methods`. Example:
 ```python
 class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIView):
-    def _should_log(self, request):
+    def _should_log_request(self, request):
+        """
+        Ignore requests made from localhost
+        """
         return request.META.get('REMOTE_ADDR') != 'localhost'
 ```
+
+You can provide a more advanced logic to determine if the response should be logged or not by overriding `_should_log_response` method. By default, always `True`. Example:
+```python
+class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIView):
+    def _should_log_response(self, response):
+        """
+        Log only errors
+        """
+        return response.status_code >= 400
+```
+
+Obviously, for a request to be logged, both `_should_log_request` and `_should_log_response` should resolve to `True`.
 
 ## Testing
 
