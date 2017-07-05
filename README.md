@@ -1,12 +1,12 @@
-# drf-tracking
+# drf-tracking-extended
 
-[![build-status-image]][travis]
-[![pypi-version]][pypi]
-[![Requirements Status](https://requires.io/github/aschn/drf-tracking/requirements.svg?branch=master)](https://requires.io/github/aschn/drf-tracking/requirements/?branch=master)
+[![Build Status](https://travis-ci.org/frankie567/drf-tracking.svg?branch=drf-tracking-extended)](https://travis-ci.org/frankie567/drf-tracking)
+[![PyPI version](https://badge.fury.io/py/drf-tracking-extended.svg)](https://badge.fury.io/py/drf-tracking-extended)
+[![Requirements Status](https://requires.io/github/frankie567/drf-tracking/requirements.svg?branch=drf-tracking-extended)](https://requires.io/github/frankie567/drf-tracking/requirements/?branch=drf-tracking-extended)
 
 ## Overview
 
-drf-tracking provides a Django model and DRF view mixin that work together to log Django Rest Framework requests to the database. You'll get these attributes for every request/response cycle to a view that uses the mixin:
+drf-tracking-extended is a fork of [drf-tracking](https://github.com/aschn/drf-tracking) providing a Django model and DRF view mixin that work together to log Django Rest Framework requests to the database. You'll get these attributes for every request/response cycle to a view that uses the mixin:
 
  Model field name | Description | Model field type
 ------------------|-------------|-----------------
@@ -36,7 +36,7 @@ drf-tracking provides a Django model and DRF view mixin that work together to lo
 Install using `pip`...
 
 ```bash
-$ pip install drf-tracking
+$ pip install drf-tracking-extended
 ```
 
 Register with your Django project by adding `rest_framework_tracking`
@@ -125,9 +125,3 @@ To build the documentation:
 ```bash
 $ mkdocs build
 ```
-
-
-[build-status-image]: https://secure.travis-ci.org/aschn/drf-tracking.png?branch=master
-[travis]: http://travis-ci.org/aschn/drf-tracking?branch=master
-[pypi-version]: https://img.shields.io/pypi/v/drf-tracking.svg
-[pypi]: https://pypi.python.org/pypi/drf-tracking

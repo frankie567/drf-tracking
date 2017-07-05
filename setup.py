@@ -6,13 +6,13 @@ import sys
 from setuptools import setup
 
 
-name = 'drf-tracking'
+name = 'drf-tracking-extended'
 package = 'rest_framework_tracking'
-description = 'Utils to log Django Rest Framework requests to the database'
-url = 'https://github.com/aschn/drf-tracking'
-author = 'Anna Schneider'
-author_email = 'anna@WattTime.org'
-license = 'BSD'
+description = 'Utils to log Django Rest Framework requests to the database. Fork of drf-tracking with extended features.'
+url = 'https://github.com/frankie567/drf-tracking'
+author = 'François Voron'
+author_email = 'fvoron@gmail.com'
+license = 'ISC'
 
 
 def get_version(package):
@@ -53,9 +53,6 @@ version = get_version(package)
 
 
 if sys.argv[-1] == 'publish':
-    if os.system("pip freeze | grep wheel"):
-        print("wheel not installed.\nUse `pip install wheel`.\nExiting.")
-        sys.exit()
     os.system("python setup.py sdist upload")
     os.system("python setup.py bdist_wheel upload")
     print("You probably want to also tag the version now:")
@@ -88,7 +85,6 @@ setup(
         'Framework :: Django :: 1.9',
         'Framework :: Django :: 1.10',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Natural Language :: English',
         'Programming Language :: Python :: 2',
