@@ -12,8 +12,8 @@ class LoggingMixin(object):
     def initial(self, request, *args, **kwargs):
         """Set current time on request"""
 
-        # check if request method is being logged
-        if self.logging_methods != '__all__' and request.method not in self.logging_methods:
+        # check if request is being logged
+        if not self._should_log(request):
             super(LoggingMixin, self).initial(request, *args, **kwargs)
             return None
 
@@ -90,7 +90,7 @@ class LoggingMixin(object):
         response = super(LoggingMixin, self).finalize_response(request, response, *args, **kwargs)
 
         # check if request method is being logged
-        if self.logging_methods != '__all__' and request.method not in self.logging_methods:
+        if not self._should_log(request):
             return response
         if not hasattr(self.request, 'log'):
             return response
@@ -107,6 +107,9 @@ class LoggingMixin(object):
 
         # return
         return response
+
+    def _should_log(self, request):
+        return self.logging_methods == '__all__' or request.method in self.logging_methods
 
 
 def _clean_data(data):
