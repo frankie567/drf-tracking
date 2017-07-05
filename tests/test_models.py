@@ -52,6 +52,10 @@ class TestAPIRequestLog(TestCase):
         log = APIRequestLog.objects.create(remote_addr=self.ip, host='testserver', requested_at=now())
         self.assertEqual(log.host, 'testserver')
 
+    def test_authentication(self):
+        log = APIRequestLog.objects.create(remote_addr=self.ip, authentication='rest_framework.authentication.TokenAuthentication', requested_at=now())
+        self.assertEqual(log.authentication, 'rest_framework.authentication.TokenAuthentication')
+
     def test_method(self):
         log = APIRequestLog.objects.create(remote_addr=self.ip, method='GET', requested_at=now())
         self.assertEqual(log.method, 'GET')
