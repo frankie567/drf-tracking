@@ -62,6 +62,12 @@ class LoggingMixin(object):
             user = None
         self.request.log.user = user
 
+        # add authentication class to log
+        if (self.request._authenticator):
+            authentication_class_name = (type(self.request._authenticator).__module__ + '.' +
+                                         type(self.request._authenticator).__name__)
+            self.request.log.authentication = authentication_class_name
+
         # get data dict
         try:
             # Accessing request.data *for the first time* parses the request body, which may raise

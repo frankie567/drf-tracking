@@ -103,8 +103,9 @@ class TestLoggingMixin(APITestCase):
         self.client.get('/logging')
         log = APIRequestLog.objects.first()
         self.assertEqual(log.user, None)
+        self.assertIsNone(log.authentication)
 
-    def test_log_auth_user(self):
+    def test_log_auth_session_user(self):
         # set up active user
         User.objects.create_user(username='myname', password='secret')
         user = User.objects.get(username='myname')
@@ -116,8 +117,23 @@ class TestLoggingMixin(APITestCase):
         # test
         log = APIRequestLog.objects.first()
         self.assertEqual(log.user, user)
+        self.assertEqual(log.authentication, 'rest_framework.authentication.SessionAuthentication')
 
-    def test_log_auth_inactive_user(self):
+    def test_log_auth_token_user(self):
+        # set up active user with token
+        user = User.objects.create_user(username='myname', password='secret')
+        token = Token.objects.create(user=user)
+        token_header = 'Token %s' % token.key
+
+        self.client.get('/token-auth-logging',
+                        HTTP_AUTHORIZATION=token_header)
+
+        # test
+        log = APIRequestLog.objects.first()
+        self.assertEqual(log.user, user)
+        self.assertEqual(log.authentication, 'rest_framework.authentication.TokenAuthentication')
+
+    def test_log_auth_token_inactive_user(self):
         # set up inactive user with token
         user = User.objects.create_user(username='myname', password='secret')
         token = Token.objects.create(user=user)
@@ -132,6 +148,7 @@ class TestLoggingMixin(APITestCase):
         # test
         log = APIRequestLog.objects.first()
         self.assertIsNone(log.user)
+        self.assertIsNone(log.authentication)
         self.assertIn("User inactive or deleted", log.response)
 
     def test_log_unauth_fails(self):
@@ -142,6 +159,7 @@ class TestLoggingMixin(APITestCase):
         # test
         log = APIRequestLog.objects.first()
         self.assertEqual(log.response, '{"detail":"Authentication credentials were not provided."}')
+        self.assertIsNone(log.authentication)
 
     def test_log_params(self):
         self.client.get('/logging', {'p1': 'a', 'another': '2'})

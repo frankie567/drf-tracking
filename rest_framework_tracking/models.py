@@ -32,6 +32,9 @@ class BaseAPIRequestLog(models.Model):
     # originating host of request
     host = models.URLField()
 
+    # authentication class used
+    authentication = models.CharField(max_length=200, null=True, blank=True)
+
     # HTTP method (GET, etc)
     method = models.CharField(max_length=10)
 
