@@ -134,24 +134,3 @@ You can also use the excellent [tox](http://tox.readthedocs.org/en/latest/) test
 ```bash
 $ tox
 ```
-
-## Documentation
-
-To build the documentation, you'll need to install `mkdocs`.
-
-```bash
-$ pip install mkdocs
-```
-
-To preview the documentation:
-
-```bash
-$ mkdocs serve
-Running at: http://127.0.0.1:8000/
-```
-
-To build the documentation:
-
-```bash
-$ mkdocs build
-```
