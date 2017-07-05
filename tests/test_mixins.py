@@ -93,6 +93,12 @@ class TestLoggingMixin(APITestCase):
         self.client.post('/explicit-logging')
         self.assertEqual(APIRequestLog.objects.all().count(), 1)
 
+    def test_logging_not_save_response(self):
+        self.client.get('/no-response-save-logging')
+        log = APIRequestLog.objects.first()
+
+        self.assertIsNone(log.response)
+
     def test_log_anon_user(self):
         self.client.get('/logging')
         log = APIRequestLog.objects.first()

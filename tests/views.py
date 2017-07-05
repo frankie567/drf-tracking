@@ -37,6 +37,13 @@ class MockExplicitLoggingView(LoggingMixin, APIView):
         return Response('with logging')
 
 
+class MockNotSaveResponseLoggingView(LoggingMixin, APIView):
+    logging_save_response = False
+
+    def get(self, request):
+        return Response('with no response save logging')
+
+
 class MockSessionAuthLoggingView(LoggingMixin, APIView):
     authentication_classes = (SessionAuthentication,)
     permission_classes = (IsAuthenticated,)

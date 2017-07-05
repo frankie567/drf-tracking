@@ -6,6 +6,7 @@ import traceback
 
 class LoggingMixin(object):
     logging_methods = '__all__'
+    logging_save_response = True
 
     """Mixin to log requests"""
     def initial(self, request, *args, **kwargs):
@@ -99,7 +100,7 @@ class LoggingMixin(object):
         response_ms = int(response_timedelta.total_seconds() * 1000)
 
         # save to log
-        self.request.log.response = response.rendered_content
+        self.request.log.response = response.rendered_content if self.logging_save_response else None
         self.request.log.status_code = response.status_code
         self.request.log.response_ms = response_ms
         self.request.log.save()
