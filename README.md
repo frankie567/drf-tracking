@@ -70,6 +70,13 @@ class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIVi
     model = ...
 ```
 
+If you don't want to save JSON response data in database, set the `logging_save_response` attribut to `False`:
+```python
+class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIView):
+    logging_save_response = False
+    model = ...
+```
+
 ## Testing
 
 Install testing requirements.
