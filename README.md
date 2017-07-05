@@ -18,6 +18,7 @@ drf-tracking provides a Django model and DRF view mixin that work together to lo
 `view_method` | Target METHOD of the VIEW of the request, e.g., `"get"` | CharField
 `remote_addr` | IP address where the request originated (X_FORWARDED_FOR if available, REMOTE_ADDR if not), e.g., `"127.0.0.1"` | GenericIPAddressField
 `host` | Originating host of the request, e.g., `"example.com"` | URLField
+`authentication` | Authentication class used to authenticate user, None if no user authenticated, e.g. `"rest_framework.authentication.TokenAuthentication"` | CharField
 `method` | HTTP method, e.g., `"GET"` | CharField
 `query_params` | Dictionary of request query parameters, as text | TextField
 `data` | Dictionary of POST data (JSON or form), as text | TextField
@@ -75,6 +76,13 @@ If you don't want to save JSON response data in database, set the `logging_save_
 class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIView):
     logging_save_response = False
     model = ...
+```
+
+You can provide a more advanced logic to determine if the request should be logged or not by overriding `_should_log` method:
+```python
+class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIView):
+    def _should_log(self, request):
+        return request.META.get('REMOTE_ADDR') != 'localhost'
 ```
 
 ## Testing
