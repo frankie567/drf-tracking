@@ -89,9 +89,7 @@ class LoggingMixin(object):
         # regular finalize response
         response = super(LoggingMixin, self).finalize_response(request, response, *args, **kwargs)
 
-        # check if request method is being logged
-        if not self._should_log(request):
-            return response
+        # not logging method
         if not hasattr(self.request, 'log'):
             return response
 
