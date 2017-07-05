@@ -149,7 +149,7 @@ class TestLoggingMixin(APITestCase):
         log = APIRequestLog.objects.first()
         self.assertIsNone(log.user)
         self.assertIsNone(log.authentication)
-        self.assertIn("User inactive or deleted", log.response)
+        self.assertIn('User inactive or deleted', log.response)
 
     def test_log_unauth_fails(self):
         # set up request without auth
@@ -281,6 +281,6 @@ class TestLoggingMixin(APITestCase):
     @mock.patch('rest_framework_tracking.mixins.APIRequestLog')
     def test_does_not_crash_on_data_not_fitting_in_the_db(self, mock_apirequestlog):
         mock_apirequestlog.objects = mock.MagicMock()
-        mock_apirequestlog.objects.create = mock.MagicMock(side_effect=Exception("integrity"))
+        mock_apirequestlog.objects.create = mock.MagicMock(side_effect=Exception('integrity'))
         self.client.get('/logging')
         self.assertEqual(APIRequestLog.objects.all().count(), 0)
