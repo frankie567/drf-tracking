@@ -1,6 +1,7 @@
 # drf-tracking-extended
 
 [![Build Status](https://travis-ci.org/frankie567/drf-tracking.svg?branch=drf-tracking-extended)](https://travis-ci.org/frankie567/drf-tracking)
+[![Coverage Status](https://coveralls.io/repos/github/frankie567/drf-tracking/badge.svg)](https://coveralls.io/github/frankie567/drf-tracking)
 [![PyPI version](https://badge.fury.io/py/drf-tracking-extended.svg)](https://badge.fury.io/py/drf-tracking-extended)
 [![Requirements Status](https://requires.io/github/frankie567/drf-tracking/requirements.svg?branch=drf-tracking-extended)](https://requires.io/github/frankie567/drf-tracking/requirements/?branch=drf-tracking-extended)
 
