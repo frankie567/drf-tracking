@@ -1,5 +1,3 @@
-# coding=utf-8
-
 
 def pytest_configure():
     from django.conf import settings

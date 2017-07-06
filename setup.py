@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import re
 import os
+import re
 import sys
-from setuptools import setup
 
+from setuptools import setup
 
 name = 'drf-tracking-extended'
 package = 'rest_framework_tracking'

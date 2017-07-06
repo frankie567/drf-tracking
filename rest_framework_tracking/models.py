@@ -1,5 +1,5 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
 from django.utils.six import python_2_unicode_compatible
 
 from rest_framework_tracking.managers import PrefetchUserManager

@@ -1,4 +1,3 @@
-# coding=utf-8
 from __future__ import absolute_import
 
 import pytest
@@ -7,14 +6,16 @@ from django.utils.timezone import now
 from flaky import flaky
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory, APITestCase
+
 from rest_framework_tracking.models import APIRequestLog
+
+from .views import MockLoggingView
 
 try:
     import mock
 except Exception:
     from unittest import mock
 
-from .views import MockLoggingView
 
 pytestmark = pytest.mark.django_db
 

@@ -1,9 +1,9 @@
-from django.test import TestCase
-from django.contrib.auth.models import User
-from django.utils.timezone import now
-from rest_framework_tracking.models import APIRequestLog
 import pytest
+from django.contrib.auth.models import User
+from django.test import TestCase
+from django.utils.timezone import now
 
+from rest_framework_tracking.models import APIRequestLog
 
 pytestmark = pytest.mark.django_db
 

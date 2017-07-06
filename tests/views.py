@@ -1,14 +1,18 @@
+import time
+
 from django.shortcuts import get_list_or_404
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework import mixins, serializers, viewsets
+from rest_framework.authentication import (SessionAuthentication,
+                                           TokenAuthentication)
+from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import serializers, viewsets, mixins
-from rest_framework.exceptions import APIException
-from rest_framework_tracking.mixins import ErrorLoggingMixin, LoggingMixin, UnsafeMethodsLoggingMixin
+
+from rest_framework_tracking.mixins import (ErrorLoggingMixin, LoggingMixin,
+                                            UnsafeMethodsLoggingMixin)
 from rest_framework_tracking.models import APIRequestLog
 from tests.test_serializers import ApiRequestLogSerializer
-import time
 
 
 class MockNoLoggingView(APIView):

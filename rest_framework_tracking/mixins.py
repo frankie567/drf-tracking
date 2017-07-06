@@ -1,7 +1,9 @@
 import re
-from .models import APIRequestLog
-from django.utils.timezone import now
 import traceback
+
+from django.utils.timezone import now
+
+from .models import APIRequestLog
 
 
 class BaseLoggingMixin(object):
