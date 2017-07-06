@@ -80,13 +80,18 @@ class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIVi
     model = ...
 ```
 
+Two other mixins are also provided as convenient shortcuts:
+
+* `rest_framework_tracking.mixins.UnsafeMethodsLoggingMixin`: Log only `POST`, `PUT`, `PATCH` and `DELETE` methods.
+* `rest_framework_tracking.mixins.ErrorLoggingMixin`: Log only error responses.
+
 ## Advanced usage
 
 ### Disable response data storage
 
 If you don't want to save response data in database, set the `logging_save_response` attribute to `False`:
 ```python
-class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIView):
+class LoggingView(LoggingMixin, generics.GenericAPIView):
     logging_save_response = False
     model = ...
 ```
@@ -95,7 +100,7 @@ class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIVi
 
 You can provide a more advanced logic to determine if the request should be logged or not by overriding `_should_log_request` method. By default, check if the method is in `logging_methods`. Example:
 ```python
-class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIView):
+class LoggingView(LoggingMixin, generics.GenericAPIView):
     def _should_log_request(self, request):
         """
         Ignore requests made from localhost
@@ -105,7 +110,7 @@ class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIVi
 
 You can provide a more advanced logic to determine if the response should be logged or not by overriding `_should_log_response` method. By default, always `True`. Example:
 ```python
-class LoggingView(LoggingMixin, generics.CreateModelMixin, generics.GenericAPIView):
+class LoggingView(LoggingMixin, generics.GenericAPIView):
     def _should_log_response(self, response):
         """
         Log only errors

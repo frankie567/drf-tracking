@@ -4,7 +4,7 @@ from django.utils.timezone import now
 import traceback
 
 
-class LoggingMixin(object):
+class BaseLoggingMixin(object):
     logging_methods = '__all__'
     logging_save_response = True
 
@@ -14,7 +14,7 @@ class LoggingMixin(object):
 
         # check if request is being logged
         if not self._should_log_request(request):
-            super(LoggingMixin, self).initial(request, *args, **kwargs)
+            super(BaseLoggingMixin, self).initial(request, *args, **kwargs)
             return None
 
         # get IP
@@ -54,7 +54,7 @@ class LoggingMixin(object):
         )
 
         # regular initial, including auth check
-        super(LoggingMixin, self).initial(request, *args, **kwargs)
+        super(BaseLoggingMixin, self).initial(request, *args, **kwargs)
 
         # add user to log after auth
         user = request.user
@@ -80,7 +80,7 @@ class LoggingMixin(object):
 
     def handle_exception(self, exc):
         # basic handling
-        response = super(LoggingMixin, self).handle_exception(exc)
+        response = super(BaseLoggingMixin, self).handle_exception(exc)
 
         # log error
         if hasattr(self.request, 'log'):
@@ -91,7 +91,7 @@ class LoggingMixin(object):
 
     def finalize_response(self, request, response, *args, **kwargs):
         # regular finalize response
-        response = super(LoggingMixin, self).finalize_response(request, response, *args, **kwargs)
+        response = super(BaseLoggingMixin, self).finalize_response(request, response, *args, **kwargs)
 
         # not logging method
         if not hasattr(self.request, 'log') or not self._should_log_response(response):
@@ -115,6 +115,33 @@ class LoggingMixin(object):
 
     def _should_log_response(self, response):
         return True
+
+
+"""
+Utility mixins proposing common behaviour
+"""
+
+
+class LoggingMixin(BaseLoggingMixin):
+    """
+    Log everything
+    """
+    pass
+
+
+class UnsafeMethodsLoggingMixin(BaseLoggingMixin):
+    """
+    Log only not safe methods
+    """
+    logging_methods = ['POST', 'PUT', 'PATCH', 'DELETE']
+
+
+class ErrorLoggingMixin(BaseLoggingMixin):
+    """
+    Log only error responses
+    """
+    def _should_log_response(self, response):
+        return response.status_code >= 400
 
 
 def _clean_data(data):

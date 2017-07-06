@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import serializers, viewsets, mixins
 from rest_framework.exceptions import APIException
-from rest_framework_tracking.mixins import LoggingMixin
+from rest_framework_tracking.mixins import ErrorLoggingMixin, LoggingMixin, UnsafeMethodsLoggingMixin
 from rest_framework_tracking.models import APIRequestLog
 from tests.test_serializers import ApiRequestLogSerializer
 import time
@@ -30,6 +30,14 @@ class MockSlowLoggingView(LoggingMixin, APIView):
 class MockExplicitLoggingView(LoggingMixin, APIView):
     logging_methods = ['POST']
 
+    def get(self, request):
+        return Response('no logging')
+
+    def post(self, request):
+        return Response('with logging')
+
+
+class MockUnsafeMethodsLoggingView(UnsafeMethodsLoggingMixin, APIView):
     def get(self, request):
         return Response('no logging')
 
@@ -89,14 +97,11 @@ class Mock415ErrorLoggingView(LoggingMixin, APIView):
         return request.data
 
 
-class MockOnlyErrorLoggingView(LoggingMixin, APIView):
+class MockOnlyErrorLoggingView(ErrorLoggingMixin, APIView):
     def get(self, request):
         if 'error' in request.query_params:
             raise serializers.ValidationError('error')
         return Response('response')
-
-    def _should_log_response(self, response):
-        return response.status_code >= 400
 
 
 class MockNameAPIView(LoggingMixin, APIView):
