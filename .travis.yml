@@ -144,7 +144,7 @@ matrix:
   fast_finish: true
 install:
   - pip install -r requirements.txt
-  - pip install tox python-coveralls psycopg2 mysqlclient
+  - pip install tox coveralls python-coveralls psycopg2 mysqlclient
 script:
   - tox -e $TOX_ENV
   - coverage run runtests.py
